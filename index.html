@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metabolism vs SCD - プロジェクトダッシュボード</title>
+    <title>[研究名] - プロジェクトダッシュボード</title>
     <style>
         * {
             margin: 0;
@@ -188,12 +188,303 @@
             color: #5f6368;
             margin-top: 4px;
         }
+        
+        /* モーダルスタイル */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #e8eaed;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.5em;
+        }
+        
+        .close {
+            color: #5f6368;
+            font-size: 32px;
+            font-weight: 300;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        
+        .close:hover {
+            color: #2c3e50;
+        }
+        
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        /* Markdown content styling (GitHub-inspired) */
+        .markdown-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #24292e;
+        }
+        
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3,
+        .markdown-content h4 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        
+        .markdown-content h1 {
+            font-size: 2em;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 0.3em;
+        }
+        
+        .markdown-content h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 0.3em;
+        }
+        
+        .markdown-content h3 {
+            font-size: 1.25em;
+        }
+        
+        .markdown-content p {
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        
+        .markdown-content code {
+            background-color: rgba(27,31,35,0.05);
+            border-radius: 3px;
+            font-size: 85%;
+            margin: 0;
+            padding: 0.2em 0.4em;
+            font-family: 'SF Mono', Monaco, Menlo, Consolas, monospace;
+        }
+        
+        .markdown-content pre {
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            padding: 16px;
+            overflow: auto;
+            margin-bottom: 16px;
+        }
+        
+        .markdown-content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+        .markdown-content ul,
+        .markdown-content ol {
+            margin-bottom: 16px;
+            padding-left: 2em;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 0.25em;
+        }
+        
+        .markdown-content blockquote {
+            padding: 0 1em;
+            color: #6a737d;
+            border-left: 0.25em solid #dfe2e5;
+            margin: 0 0 16px 0;
+        }
+        
+        .markdown-content a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        
+        .markdown-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .markdown-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        
+        .markdown-content table th,
+        .markdown-content table td {
+            padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+        }
+        
+        .markdown-content table th {
+            font-weight: 600;
+            background-color: #f6f8fa;
+        }
+        
+        .markdown-content table tr:nth-child(even) {
+            background-color: #f6f8fa;
+        }
+        
+        .markdown-content hr {
+            height: 0.25em;
+            padding: 0;
+            margin: 24px 0;
+            background-color: #e1e4e8;
+            border: 0;
+        }
+        
+        /* TODO & Memo Styles */
+        .todo-input-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .todo-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+        }
+        
+        .todo-input:focus {
+            outline: none;
+            border-color: #5f8aa7;
+        }
+        
+        .todo-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+        
+        .todo-item:hover {
+            background: #e8eaed;
+        }
+        
+        .todo-item.completed {
+            opacity: 0.6;
+        }
+        
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+        }
+        
+        .todo-checkbox {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .todo-text {
+            flex: 1;
+            color: #2c3e50;
+        }
+        
+        .todo-delete {
+            background: none;
+            border: none;
+            color: #d93025;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 4px 8px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        .todo-delete:hover {
+            opacity: 1;
+        }
+        
+        .memo-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+            resize: vertical;
+        }
+        
+        .memo-textarea:focus {
+            outline: none;
+            border-color: #5f8aa7;
+        }
+        
+        .save-indicator {
+            font-size: 0.85em;
+            color: #5f6368;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #5f6368;
+            padding: 20px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
+    <!-- Modal for displaying Markdown content -->
+    <div id="markdownModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">ドキュメント</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="markdownContent" class="markdown-content"></div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <header>
-            <h1>📚 Metabolism vs SCD</h1>
+            <h1>📚 [研究名]</h1>
             <p>研究プロジェクト管理ダッシュボード</p>
         </header>
         
@@ -323,6 +614,35 @@
                     </button>
                 </div>
             </div>
+            
+            <!-- TODO リスト -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">✓</div>
+                    <div class="card-title">TODOリスト</div>
+                </div>
+                <div class="card-description">
+                    研究タスクを管理します。
+                </div>
+                <div class="todo-input-container">
+                    <input type="text" id="todoInput" class="todo-input" placeholder="新しいタスクを入力..." onkeypress="if(event.key==='Enter') addTodo()">
+                    <button onclick="addTodo()" class="btn btn-primary">追加</button>
+                </div>
+                <div id="todoList" class="todo-list"></div>
+            </div>
+            
+            <!-- メモ -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📝</div>
+                    <div class="card-title">メモ</div>
+                </div>
+                <div class="card-description">
+                    研究に関するメモや気づきを記録します。
+                </div>
+                <textarea id="memoTextarea" class="memo-textarea" placeholder="メモを入力..."></textarea>
+                <div class="save-indicator" id="memoSaveIndicator">自動保存されました</div>
+            </div>
         </div>
         
         <!-- クイックリンク -->
@@ -365,7 +685,37 @@
         </div>
     </div>
     
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
     <script>
+        // モーダルを開く
+        function openModal(title, content) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('markdownContent').innerHTML = content;
+            document.getElementById('markdownModal').style.display = 'block';
+        }
+        
+        // モーダルを閉じる
+        function closeModal() {
+            document.getElementById('markdownModal').style.display = 'none';
+        }
+        
+        // モーダルの外側をクリックしたら閉じる
+        window.onclick = function(event) {
+            const modal = document.getElementById('markdownModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        // ESCキーでモーダルを閉じる
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
         // ファイルを開く（VS Codeまたはシステムデフォルト）
         function openFile(filename) {
             alert('ファイルを開きます: ' + filename + '\n\nVS Codeまたはお好みのエディタでプロジェクトフォルダを開いてください。\n\nまたは、ターミナルで:\ncode ' + filename);
@@ -376,9 +726,26 @@
             alert('フォルダを開きます: ' + foldername + '\n\nFinderでプロジェクトフォルダを開いて、' + foldername + 'フォルダに移動してください。');
         }
         
-        // ガイドを開く
-        function openGuide(filename) {
-            window.open(filename, '_blank');
+        // ガイドを開く（Markdownを読み込んで表示）
+        async function openGuide(filename) {
+            try {
+                const response = await fetch(filename);
+                if (!response.ok) {
+                    throw new Error('ファイルが見つかりません');
+                }
+                const markdownText = await response.text();
+                
+                // marked.jsでMarkdownをHTMLに変換
+                const htmlContent = marked.parse(markdownText);
+                
+                // ファイル名からタイトルを生成
+                const title = filename.split('/').pop().replace('.md', '');
+                
+                // モーダルで表示
+                openModal(title, htmlContent);
+            } catch (error) {
+                alert('ドキュメントを読み込めませんでした: ' + filename + '\n\nエラー: ' + error.message);
+            }
         }
         
         // PDFを開く
@@ -402,7 +769,135 @@
             document.getElementById('noteCount').textContent = '1';
             document.getElementById('figureCount').textContent = '3';
             document.getElementById('tableCount').textContent = '2';
+            
+            // TODOリストとメモを読み込み
+            loadTodos();
+            loadMemo();
         };
+        
+        // ========== TODO リスト機能 ==========
+        
+        let todos = [];
+        
+        // TODOを読み込み
+        function loadTodos() {
+            const saved = localStorage.getItem('research-todos');
+            if (saved) {
+                todos = JSON.parse(saved);
+                renderTodos();
+            }
+        }
+        
+        // TODOを保存
+        function saveTodos() {
+            localStorage.setItem('research-todos', JSON.stringify(todos));
+        }
+        
+        // TODOを追加
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            
+            if (text === '') return;
+            
+            todos.push({
+                id: Date.now(),
+                text: text,
+                completed: false
+            });
+            
+            input.value = '';
+            saveTodos();
+            renderTodos();
+        }
+        
+        // TODOの完了状態を切り替え
+        function toggleTodo(id) {
+            const todo = todos.find(t => t.id === id);
+            if (todo) {
+                todo.completed = !todo.completed;
+                saveTodos();
+                renderTodos();
+            }
+        }
+        
+        // TODOを削除
+        function deleteTodo(id) {
+            todos = todos.filter(t => t.id !== id);
+            saveTodos();
+            renderTodos();
+        }
+        
+        // TODOリストを描画
+        function renderTodos() {
+            const container = document.getElementById('todoList');
+            
+            if (todos.length === 0) {
+                container.innerHTML = '<div class="empty-state">タスクはありません</div>';
+                return;
+            }
+            
+            container.innerHTML = todos.map(todo => `
+                <div class="todo-item ${todo.completed ? 'completed' : ''}">
+                    <input type="checkbox" 
+                           class="todo-checkbox" 
+                           ${todo.completed ? 'checked' : ''} 
+                           onchange="toggleTodo(${todo.id})">
+                    <span class="todo-text">${escapeHtml(todo.text)}</span>
+                    <button class="todo-delete" onclick="deleteTodo(${todo.id})" title="削除">×</button>
+                </div>
+            `).join('');
+        }
+        
+        // ========== メモ機能 ==========
+        
+        let memoSaveTimeout;
+        
+        // メモを読み込み
+        function loadMemo() {
+            const textarea = document.getElementById('memoTextarea');
+            const saved = localStorage.getItem('research-memo');
+            if (saved) {
+                textarea.value = saved;
+            }
+            
+            // 自動保存を設定
+            textarea.addEventListener('input', function() {
+                clearTimeout(memoSaveTimeout);
+                showMemoSaveIndicator('保存中...');
+                
+                memoSaveTimeout = setTimeout(() => {
+                    saveMemo();
+                }, 1000); // 1秒後に保存
+            });
+        }
+        
+        // メモを保存
+        function saveMemo() {
+            const textarea = document.getElementById('memoTextarea');
+            localStorage.setItem('research-memo', textarea.value);
+            showMemoSaveIndicator('自動保存されました');
+        }
+        
+        // 保存インジケーターを表示
+        function showMemoSaveIndicator(message) {
+            const indicator = document.getElementById('memoSaveIndicator');
+            indicator.textContent = message;
+            indicator.style.opacity = '1';
+            
+            setTimeout(() => {
+                indicator.style.opacity = '0';
+            }, 2000);
+        }
+        
+        // ========== ユーティリティ ==========
+        
+        // HTMLエスケープ
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
     </script>
 </body>
 </html>

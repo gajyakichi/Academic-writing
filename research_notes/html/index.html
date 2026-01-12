@@ -31,17 +31,39 @@
             background: #2c3e50;
             color: white;
             padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        header h1 {
+        .header-content h1 {
             font-size: 1.8em;
             font-weight: 600;
             margin-bottom: 6px;
         }
         
-        header p {
+        .header-content p {
             font-size: 0.95em;
             opacity: 0.85;
+        }
+        
+        .back-button {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
         }
         
         .view-switcher {
@@ -438,8 +460,14 @@
 <body>
     <div class="container">
         <header>
-            <h1>📚 研究ノート</h1>
-            <p>Research Notes Calendar & List View</p>
+            <div class="header-content">
+                <h1>📚 研究ノート</h1>
+                <p>Research Notes Calendar & List View</p>
+            </div>
+            <a href="../../index.html" class="back-button">
+                <span>⬅</span>
+                <span>ダッシュボードに戻る</span>
+            </a>
         </header>
         
         <div class="view-switcher">

@@ -12,6 +12,10 @@
 *.synctex.gz
 *.synctex.gz(busy)
 
+# LaTeX 生成ファイル
+*.pdf
+*.dvi
+
 # macOS
 .DS_Store
 

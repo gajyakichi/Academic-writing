@@ -1,0 +1,21 @@
+# Latexmk 設定ファイル（日本語版用）
+# upLaTeX + pBibTeX + dvipdfmx のワークフロー
+
+# LaTeX processor
+$latex = 'platex %O %S';
+$bibtex = 'pbibtex %O %B';
+$dvipdf = 'dvipdfmx %O -o %D %S';
+$makeindex = 'mendex %O -o %D %S';
+
+# PDF生成モード
+$pdf_mode = 3; # 3 = LaTeX -> DVI -> PDF
+
+# 中間ファイルの自動削除
+$clean_ext = 'bbl blg aux dvi log out toc lof lot';
+
+# 監視モード用の設定
+$preview_continuous_mode = 1;
+$pvc_view_file_via_temporary = 0;
+
+# PDF viewerの設定（macOS）
+$pdf_previewer = 'open -a Preview %S';

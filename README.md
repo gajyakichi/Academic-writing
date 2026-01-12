@@ -1,80 +1,147 @@
-# Metabolism vs SCD 論文プロジェクト
+# Metabolism vs SCD Research Paper
 
-## 概要
-
-このディレクトリは、Bibtex を使用した論文執筆のためのワークスペースです。
+このリポジトリは、代謝と SCD（Sudden Cardiac Death）に関する研究論文を管理するためのものです。
 
 ## ファイル構成
 
-- `main.tex` - メインの論文ファイル（LaTeX 形式）
-- `references.bib` - 参考文献データベース（Bibtex 形式）
-- `README.md` - このファイル（プロジェクト説明）
+### 論文ファイル
+
+- **`main_J.tex`** - 日本語版の論文（主にこちらを編集）
+- **`main.tex`** - 英語版の論文（main_J.tex から自動生成）
+- **`references.bib`** - 参考文献データベース
+
+### スクリプト
+
+- **`translate.sh`** - 日本語から英語への自動翻訳スクリプト
+- **`compile_J.sh`** - 日本語版のコンパイルスクリプト
+- **`compile.sh`** - 英語版のコンパイルスクリプト
+
+### 設定ファイル
+
+- **`.latexmkrc`** - latexmk の設定ファイル
+- **`.gitignore`** - Git で無視するファイルの設定
 
 ## 使い方
 
-### 1. 参考文献の追加
+### 1. 日本語で論文を執筆
 
-`references.bib`ファイルに参考文献を追加します。各エントリーには一意のキー（例：`example_article`）を付けてください。
+`main_J.tex` を編集して、日本語で論文を書きます：
+
+```bash
+# お好きなエディタで編集
+code main_J.tex  # VS Code
+vim main_J.tex   # Vim
+```
+
+### 2. 日本語版をコンパイル
+
+```bash
+./compile_J.sh
+```
+
+これで `main_J.pdf` が生成されます。
+
+### 3. 英語版に自動翻訳
+
+```bash
+./translate.sh
+```
+
+これで `main_J.tex` の内容が英語に翻訳されて `main.tex` に出力されます。
+
+### 4. 英語版をコンパイル
+
+```bash
+./compile.sh
+```
+
+これで `main.pdf` が生成されます。
+
+### ワンストップワークフロー
+
+日本語版を編集後、翻訳とコンパイルを一度に実行：
+
+```bash
+./translate.sh && ./compile.sh
+```
+
+## 必要な環境
+
+- **BasicTeX** または **TeX Live**（LaTeX 環境）
+- **日本語パッケージ**
+  ```bash
+  sudo tlmgr install collection-langjapanese
+  sudo tlmgr install latexmk
+  ```
+- **Python 3**（翻訳スクリプト用）
+
+## GitHub 連携
+
+このリポジトリは GitHub と連携しています：
+
+```bash
+# 変更をコミット
+git add .
+git commit -m "論文を更新"
+
+# GitHubにプッシュ
+git push
+```
+
+## 参考文献の追加
+
+`references.bib` に新しい文献を追加してください：
 
 ```bibtex
-@article{unique_key,
-  author  = {著者名},
-  title   = {論文タイトル},
+@article{your_article,
+  author = {著者名},
+  title = {論文タイトル},
   journal = {ジャーナル名},
-  year    = {2024}
+  year = {2024},
+  volume = {1},
+  pages = {1--10}
 }
 ```
 
-### 2. 本文での引用
+論文内で引用する場合：
 
-`main.tex`で参考文献を引用する際は、`\cite{unique_key}`を使用します。
-
-### 3. コンパイル方法
-
-#### 基本的なコンパイル手順（3 回実行が必要）：
-
-```bash
-# 1回目: LaTeXコンパイル（引用を認識）
-platex main.tex
-
-# 2回目: Bibtexで参考文献を処理
-bibtex main
-
-# 3回目: LaTeXコンパイル（参考文献を埋め込み）
-platex main.tex
-
-# 4回目: LaTeXコンパイル（参照を確定）
-platex main.tex
-
-# PDFに変換（必要に応じて）
-dvipdfmx main.dvi
+```latex
+先行研究によると\cite{your_article}...
 ```
 
-#### latexmk を使う場合（推奨）：
+## 翻訳について
+
+現在の `translate.sh` は基本的な置換ルールベースの翻訳を行います。より高品質な翻訳が必要な場合は、以下のオプションがあります：
+
+1. **DeepL API** を使用した翻訳
+2. **Claude/ChatGPT API** を使用した翻訳
+3. 手動での翻訳と校正
+
+翻訳スクリプトは将来的に AI 翻訳に拡張可能です。
+
+## トラブルシューティング
+
+### コンパイルエラーが出る場合
 
 ```bash
-# 自動で必要な回数コンパイルしてくれます
-latexmk -pdf main.tex
+# 中間ファイルをクリーンアップ
+latexmkC
+```
+
+### 日本語が表示されない場合
+
+BasicTeX で日本語パッケージがインストールされているか確認：
+
+```bash
+tlmgr list --only-installed | grep japan
 ```
 
 ## 参考文献スタイル
 
-`main.tex`の`\bibliographystyle{}`で参考文献のスタイルを変更できます：
+`main.tex` と `main_J.tex` の `\bibliographystyle{}` で参考文献のスタイルを変更できます：
 
 - `plain` - 著者名順、番号付き
 - `unsrt` - 引用順、番号付き
 - `alpha` - 著者名の略号付き
 - `abbrv` - plain の省略版
 - `ieeetr` - IEEE 形式
-
-## 環境要件
-
-- LaTeX（TeX Live、MacTeX 等）
-- Bibtex
-- 日本語 LaTeX 環境（upLaTeX、pLaTeX、LuaLaTeX 等）
-
-## Tips
-
-1. **文献管理ツール**: Zotero、Mendeley、JabRef などを使うと、Bibtex ファイルの管理が楽になります
-2. **Google Scholar**: 論文の Bibtex エントリーを簡単に取得できます（引用ボタン →BibTeX）
-3. **バックアップ**: 定期的に Git でバージョン管理することをお勧めします

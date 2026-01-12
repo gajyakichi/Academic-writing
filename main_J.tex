@@ -1,0 +1,106 @@
+% LaTeX論文テンプレート（日本語版）
+% このファイルを編集すると、自動的に main.tex に英訳されます
+\documentclass[12pt, a4paper]{article}
+
+% 日本語対応（upLaTeX、pLaTeXの場合）
+% \usepackage[utf8]{inputenc} % UTF-8エンコーディング（LuaLaTeX/XeLaTeXでは不要）
+\usepackage[japanese]{babel}  % 日本語サポート
+
+% 基本パッケージ
+\usepackage{amsmath, amssymb}  % 数式
+\usepackage{graphicx}          % 図の挿入
+\usepackage{hyperref}          % ハイパーリンク
+\usepackage{cite}              % 引用の最適化
+
+% ページ設定
+\usepackage[top=25mm, bottom=25mm, left=25mm, right=25mm]{geometry}
+
+% タイトル情報
+\title{代謝とSCDに関する研究}
+\author{山口怜}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+ここに日本語で要旨を記述します。研究の背景、目的、方法、主要な結果、結論を簡潔にまとめます。
+
+通常、150〜250語程度で記述します。
+\end{abstract}
+
+\section{序論}
+\subsection{研究背景}
+ここに日本語で研究の背景を記述します。
+
+\subsection{研究目的}
+ここに日本語で研究の目的を記述します。
+
+参考文献を引用する場合は、\cite{example_article}のようにciteコマンドを使用します。
+
+複数の文献を引用する場合は、\cite{example_article, example_book}のように記述できます。
+
+\section{方法}
+\subsection{研究デザイン}
+ここに日本語で研究デザインを記述します。
+
+\subsection{対象}
+ここに日本語で研究対象を記述します。
+
+\subsection{解析方法}
+ここに日本語で解析方法を記述します。
+
+% 数式の例
+% \begin{equation}
+%   E = mc^2
+% \end{equation}
+
+\section{結果}
+\subsection{基本特性}
+ここに日本語で基本特性の結果を記述します。
+
+\subsection{主要な結果}
+ここに日本語で主要な結果を記述します。
+
+% 図の挿入例
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{figure1.pdf}
+%   \caption{図のキャプション}
+%   \label{fig:figure1}
+% \end{figure}
+
+% 表の例
+% \begin{table}[htbp]
+%   \centering
+%   \caption{表のキャプション}
+%   \label{tab:table1}
+%   \begin{tabular}{lcc}
+%     \hline
+%     項目 & 群A & 群B \\
+%     \hline
+%     値1 & 10.2 & 12.5 \\
+%     値2 & 8.7 & 9.3 \\
+%     \hline
+%   \end{tabular}
+% \end{table}
+
+\section{考察}
+\subsection{主要な知見}
+ここに日本語で主要な知見を記述します。
+
+\subsection{先行研究との比較}
+ここに日本語で先行研究との比較を記述します。
+
+\subsection{本研究の限界}
+ここに日本語で本研究の限界を記述します。
+
+\section{結論}
+ここに日本語で結論を簡潔に記述します。研究の主要な発見と、その臨床的・学術的意義をまとめます。
+
+% 参考文献
+\bibliographystyle{plain}  % 参考文献スタイル（plain, unsrt, alpha, abbrv など）
+\bibliography{references}   % references.bibファイルを参照
+
+\end{document}

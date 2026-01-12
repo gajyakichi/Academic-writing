@@ -19,21 +19,21 @@ pip install openpyxl
 
 ```bash
 # CSVファイルから変換
-python3 csv_to_latex.py tables/sample_baseline.csv
+python3 scripts/csv_to_latex.py tables/sample_baseline.csv
 
 # キャプションとラベルを指定
-python3 csv_to_latex.py tables/sample_baseline.csv \
+python3 scripts/csv_to_latex.py tables/sample_baseline.csv \
   -c "患者の基本特性" \
   -l "tab:baseline"
 
 # ファイルに出力
-python3 csv_to_latex.py tables/sample_baseline.csv \
+python3 scripts/csv_to_latex.py tables/sample_baseline.csv \
   -c "患者の基本特性" \
   -l "tab:baseline" \
   -o tables/baseline_table.tex
 
 # Excelファイルから変換
-python3 csv_to_latex.py tables/mydata.xlsx \
+python3 scripts/csv_to_latex.py tables/mydata.xlsx \
   -c "表のタイトル" \
   -l "tab:mydata"
 ```
@@ -50,7 +50,7 @@ python3 csv_to_latex.py tables/mydata.xlsx \
 #### 例 1: 基本特性表の変換
 
 ```bash
-python3 csv_to_latex.py tables/sample_baseline.csv \
+python3 scripts/csv_to_latex.py tables/sample_baseline.csv \
   -c "患者の基本特性" \
   -l "tab:baseline" \
   -o tables/baseline.tex
@@ -78,7 +78,7 @@ python3 csv_to_latex.py tables/sample_baseline.csv \
 #### 例 2: 多変量解析の結果
 
 ```bash
-python3 csv_to_latex.py tables/sample_multivariate.csv \
+python3 scripts/csv_to_latex.py tables/sample_multivariate.csv \
   -c "SCDリスク因子の多変量解析" \
   -l "tab:multivariate" \
   -o tables/multivariate.tex
@@ -192,7 +192,7 @@ tables/
 # すべてのCSVファイルを変換
 for file in tables/*.csv; do
   basename=$(basename "$file" .csv)
-  python3 csv_to_latex.py "$file" \
+  python3 scripts/csv_to_latex.py "$file" \
     -c "表のタイトル" \
     -l "tab:$basename" \
     -o "tables/${basename}.tex"
@@ -252,7 +252,7 @@ pip install openpyxl
 
 for csv in tables/*.csv; do
   name=$(basename "$csv" .csv)
-  python3 csv_to_latex.py "$csv" \
+  python3 scripts/csv_to_latex.py "$csv" \
     -c "$(echo $name | tr '_' ' ')" \
     -l "tab:$name" \
     -o "tables/${name}.tex"
@@ -291,7 +291,7 @@ CSV の中で LaTeX コマンドを使用：
 
 ## まとめ
 
-1. **推奨方法**: `csv_to_latex.py` スクリプトを使用
+1. **推奨方法**: `scripts/csv_to_latex.py` スクリプトを使用
 2. **簡単な方法**: オンラインツール（Tables Generator）
 3. **直接読み込み**: csvsimple パッケージ
 

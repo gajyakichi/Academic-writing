@@ -7,7 +7,7 @@
 ### 1. 新しい研究ノートを作成
 
 ```bash
-./create_note.sh
+./scripts/create_note.sh
 ```
 
 これにより、今日の日付のノート（例：`2026-01-12.md`）が自動生成されます。
@@ -31,7 +31,7 @@ vim research_notes/2026-01-12.md
 ### 3. サマリーを生成
 
 ```bash
-./generate_summary.sh
+./scripts/generate_summary.sh
 ```
 
 すべての no ノートを統合した `SUMMARY.md` が生成されます。
@@ -65,7 +65,7 @@ git push
 定期的にサマリーを生成して、進捗を確認：
 
 ```bash
-./generate_summary.sh
+./scripts/generate_summary.sh
 open research_notes/SUMMARY.md
 ```
 
@@ -94,7 +94,7 @@ research_notes/
 
 ```bash
 # 今日のノートを作成
-./create_note.sh
+./scripts/create_note.sh
 
 # ノートを開いて目標を記入
 code research_notes/$(date +%Y-%m-%d).md
@@ -123,7 +123,7 @@ git push
 
 ```bash
 # サマリーを生成して振り返り
-./generate_summary.sh
+./scripts/generate_summary.sh
 open research_notes/SUMMARY.md
 ```
 

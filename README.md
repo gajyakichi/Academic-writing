@@ -54,7 +54,7 @@ Metabolism_vs_SCD/
 ├── compile_J.sh            # 日本語版コンパイルスクリプト
 ├── compile.sh              # 英語版コンパイルスクリプト
 ├── translate.sh            # 日本語→英語 翻訳スクリプト
-├── csv_to_latex.py         # CSV→LaTeX表 変換スクリプト
+├── scripts/csv_to_latex.py         # CSV→LaTeX表 変換スクリプト
 ├── .latexmkrc              # 英語版LaTeX設定（LuaLaTeX）
 ├── .latexmkrc_jp           # 日本語版LaTeX設定（pLaTeX）
 ├── README.md               # このファイル
@@ -75,7 +75,7 @@ vim main_J.tex   # Vim
 ### 2. 日本語版をコンパイル
 
 ```bash
-./compile_J.sh
+./scripts/compile_J.sh
 ```
 
 → `main_J.pdf` が生成されます
@@ -83,7 +83,7 @@ vim main_J.tex   # Vim
 ### 3. 英語版に翻訳
 
 ```bash
-./translate.sh
+./scripts/translate.sh
 ```
 
 → `main.tex` に翻訳されます
@@ -91,7 +91,7 @@ vim main_J.tex   # Vim
 ### 4. 英語版をコンパイル
 
 ```bash
-./compile.sh
+./scripts/compile.sh
 ```
 
 → `main.pdf` が生成されます
@@ -99,7 +99,7 @@ vim main_J.tex   # Vim
 ### ワンライナー（翻訳＋コンパイル）
 
 ```bash
-./translate.sh && ./compile.sh
+./scripts/translate.sh && ./scripts/compile.sh
 ```
 
 ## 📊 図の追加方法
@@ -156,7 +156,7 @@ figures/my_figure.pdf
 
 ```bash
 # CSVファイルを変換
-python3 csv_to_latex.py tables/mydata.csv \
+python3 scripts/csv_to_latex.py tables/mydata.csv \
   -c "表のタイトル" \
   -l "tab:mytable"
 ```
@@ -233,23 +233,23 @@ git push
 ### 日常的な執筆
 
 1. `main_J.tex` を編集
-2. `./compile_J.sh` で確認
+2. `./scripts/compile_J.sh` で確認
 3. 変更をコミット: `git add . && git commit -m "更新"`
 4. GitHub にプッシュ: `git push`
 
 ### 投稿前の最終確認
 
 1. `main_J.tex` を最終確認
-2. `./translate.sh` で英語版を生成
+2. `./scripts/translate.sh` で英語版を生成
 3. 必要に応じて `main.tex` を手動調整
-4. 両方をコンパイル: `./compile_J.sh && ./compile.sh`
+4. 両方をコンパイル: `./scripts/compile_J.sh && ./scripts/compile.sh`
 5. PDF を確認: `main_J.pdf` と `main.pdf`
 
 ### データの追加
 
 1. Excel でデータを作成
 2. CSV UTF-8 で `tables/` に保存
-3. `csv_to_latex.py` で変換
+3. `scripts/csv_to_latex.py` で変換
 4. 論文に挿入
 
 ## 🛠️ トラブルシューティング

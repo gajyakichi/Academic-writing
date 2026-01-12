@@ -1,17 +1,14 @@
-# Latexmk 設定ファイル
-# upLaTeX + pBibTeX + dvipdfmx のワークフロー
+# Latexmk 設定ファイル（英語版用）
+# LuaLaTeX + BibTeX ワークフロー（PNG/PDFに対応）
 
-# LaTeX processor
-$latex = 'platex %O %S';
-$bibtex = 'pbibtex %O %B';
-$dvipdf = 'dvipdfmx %O -o %D %S';
-$makeindex = 'mendex %O -o %D %S';
+# LaTeX processor - LuaLaTeXを使用
+$pdf_mode = 4; # 4 = LuaLaTeX
 
-# PDF生成モード
-$pdf_mode = 3; # 3 = LaTeX -> DVI -> PDF
+# BibTeX processor
+$bibtex = 'bibtex %O %B';
 
 # 中間ファイルの自動削除
-$clean_ext = 'bbl blg aux dvi log out toc lof lot';
+$clean_ext = 'bbl blg aux log out toc lof lot fls fdb_latexmk synctex.gz';
 
 # 監視モード用の設定
 $preview_continuous_mode = 1;

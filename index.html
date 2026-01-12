@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metabolism vs SCD - プロジェクトダッシュボード</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eaed 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            color: #5f6368;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .card-icon {
+            font-size: 2em;
+            margin-right: 12px;
+        }
+        
+        .card-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .card-description {
+            color: #5f6368;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: #5f8aa7;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4a7188;
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #5f6368;
+            border: 1px solid #dadce0;
+        }
+        
+        .btn-secondary:hover {
+            background: #e8eaed;
+        }
+        
+        .quick-links {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .quick-links h2 {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 16px;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .link-item {
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .link-item:hover {
+            background: #e8eaed;
+        }
+        
+        .link-icon {
+            margin-right: 8px;
+        }
+        
+        .status-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        
+        .status-item {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .status-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #5f8aa7;
+        }
+        
+        .status-label {
+            font-size: 0.9em;
+            color: #5f6368;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Metabolism vs SCD</h1>
+            <p>研究プロジェクト管理ダッシュボード</p>
+        </header>
+        
+        <div class="grid">
+            <!-- 研究ノート -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📝</div>
+                    <div class="card-title">研究ノート</div>
+                </div>
+                <div class="card-description">
+                    日々の研究活動を記録・管理します。カレンダービューで過去のノートを確認できます。
+                </div>
+                <div class="action-buttons">
+                    <a href="research_notes/html/index.html" class="btn btn-primary">
+                        📅 カレンダービューを開く
+                    </a>
+                    <button onclick="createNote()" class="btn btn-secondary">
+                        ➕ 今日のノートを作成
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 論文執筆 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📄</div>
+                    <div class="card-title">論文執筆</div>
+                </div>
+                <div class="card-description">
+                    日本語・英語の論文を編集・コンパイルします。
+                </div>
+                <div class="action-buttons">
+                    <button onclick="openFile('main_J.tex')" class="btn btn-primary">
+                        ✏️ 日本語版を編集
+                    </button>
+                    <button onclick="openFile('main.tex')" class="btn btn-secondary">
+                        ✏️ 英語版を編集
+                    </button>
+                    <button onclick="openFile('manuscript.md')" class="btn btn-secondary">
+                        📝 Markdownで執筆
+                    </button>
+                </div>
+            </div>
+            
+            <!-- コンパイル -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">⚙️</div>
+                    <div class="card-title">コンパイル</div>
+                </div>
+                <div class="card-description">
+                    論文をPDFに変換します。翻訳も自動で行えます。
+                </div>
+                <div class="action-buttons">
+                    <button onclick="runCommand('scripts/compile_J.sh')" class="btn btn-primary">
+                        🔨 日本語版コンパイル
+                    </button>
+                    <button onclick="runCommand('scripts/compile.sh')" class="btn btn-secondary">
+                        🔨 英語版コンパイル
+                    </button>
+                    <button onclick="runCommand('scripts/translate.sh')" class="btn btn-secondary">
+                        🌐 翻訳
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 研究計画書 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📋</div>
+                    <div class="card-title">研究計画書</div>
+                </div>
+                <div class="card-description">
+                    研究計画書の作成・編集を行います。
+                </div>
+                <div class="action-buttons">
+                    <button onclick="openFile('proposal_J.tex')" class="btn btn-primary">
+                        ✏️ 計画書を編集
+                    </button>
+                    <button onclick="runCommand('scripts/compile_proposal.sh')" class="btn btn-secondary">
+                        🔨 PDFを生成
+                    </button>
+                    <button onclick="openPDF('proposal_J.pdf')" class="btn btn-secondary">
+                        👁️ PDFを表示
+                    </button>
+                </div>
+            </div>
+            
+            <!-- データ・表 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">データ・表</div>
+                </div>
+                <div class="card-description">
+                    CSV/Excelデータを管理し、LaTeX表に変換します。
+                </div>
+                <div class="action-buttons">
+                    <button onclick="openFolder('tables')" class="btn btn-primary">
+                        📂 データフォルダを開く
+                    </button>
+                    <button onclick="openGuide('CSV_TO_TABLE_GUIDE.md')" class="btn btn-secondary">
+                        📖 変換ガイド
+                    </button>
+                    <button onclick="openGuide('TABLES_GUIDE.md')" class="btn btn-secondary">
+                        📖 表作成ガイド
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 図 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🖼️</div>
+                    <div class="card-title">図・画像</div>
+                </div>
+                <div class="card-description">
+                    論文用の図を管理します。PNG/PDF形式に対応しています。
+                </div>
+                <div class="action-buttons">
+                    <button onclick="openFolder('figures')" class="btn btn-primary">
+                        📂 図フォルダを開く
+                    </button>
+                    <button onclick="openGuide('figures/README.md')" class="btn btn-secondary">
+                        📖 使い方ガイド
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- クイックリンク -->
+        <div class="quick-links">
+            <h2>📌 クイックリンク</h2>
+            <div class="links-grid">
+                <a href="README.md" class="link-item" onclick="event.preventDefault(); openGuide('README.md')">
+                    <span class="link-icon">📖</span>
+                    README
+                </a>
+                <a href="BEGINNER_GUIDE.md" class="link-item" onclick="event.preventDefault(); openGuide('BEGINNER_GUIDE.md')">
+                    <span class="link-icon">🎓</span>
+                    初心者ガイド
+                </a>
+                <a href="scripts/README.md" class="link-item" onclick="event.preventDefault(); openGuide('scripts/README.md')">
+                    <span class="link-icon">⚙️</span>
+                    スクリプト
+                </a>
+                <a href="references.bib" class="link-item" onclick="event.preventDefault(); openFile('references.bib')">
+                    <span class="link-icon">📚</span>
+                    参考文献
+                </a>
+            </div>
+        </div>
+        
+        <!-- ステータスバー -->
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-number" id="noteCount">0</div>
+                <div class="status-label">研究ノート</div>
+            </div>
+            <div class="status-item">
+                <div class="status-number" id="figureCount">0</div>
+                <div class="status-label">図</div>
+            </div>
+            <div class="status-item">
+                <div class="status-number" id="tableCount">0</div>
+                <div class="status-label">データファイル</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // ファイルを開く（VS Codeまたはシステムデフォルト）
+        function openFile(filename) {
+            alert('ファイルを開きます: ' + filename + '\n\nVS Codeまたはお好みのエディタでプロジェクトフォルダを開いてください。\n\nまたは、ターミナルで:\ncode ' + filename);
+        }
+        
+        // フォルダを開く
+        function openFolder(foldername) {
+            alert('フォルダを開きます: ' + foldername + '\n\nFinderでプロジェクトフォルダを開いて、' + foldername + 'フォルダに移動してください。');
+        }
+        
+        // ガイドを開く
+        function openGuide(filename) {
+            window.open(filename, '_blank');
+        }
+        
+        // PDFを開く
+        function openPDF(filename) {
+            alert('PDFを開きます: ' + filename + '\n\nファイルが存在する場合は、システムのデフォルトPDFビューアで開かれます。');
+        }
+        
+        // コマンドを実行
+        function runCommand(command) {
+            alert('コマンドを実行: ' + command + '\n\nターミナルで以下を実行してください:\n\n./' + command);
+        }
+        
+        // ノートを作成
+        function createNote() {
+            alert('研究ノートを作成\n\nターミナルで以下を実行してください:\n\n./scripts/create_note.sh');
+        }
+        
+        // 統計情報を更新（実際にはサーバー側で取得が必要）
+        window.onload = function() {
+            // サンプル値（実際のプロジェクトに応じて動的に更新）
+            document.getElementById('noteCount').textContent = '1';
+            document.getElementById('figureCount').textContent = '3';
+            document.getElementById('tableCount').textContent = '2';
+        };
+    </script>
+</body>
+</html>

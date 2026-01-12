@@ -1,0 +1,22 @@
+# LaTeX 中間ファイル
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex.gz(busy)
+
+# macOS
+.DS_Store
+
+# エディタ
+*.swp
+*.swo
+*~
+.vscode/

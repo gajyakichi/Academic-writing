@@ -1,0 +1,51 @@
+% LaTeX論文テンプレート
+\documentclass[12pt, a4paper]{article}
+
+% 日本語対応（upLaTeX、pLaTeXの場合）
+% \usepackage[utf8]{inputenc} % UTF-8エンコーディング（LuaLaTeX/XeLaTeXでは不要）
+\usepackage[japanese]{babel}  % 日本語サポート
+
+% 基本パッケージ
+\usepackage{amsmath, amssymb}  % 数式
+\usepackage{graphicx}          % 図の挿入
+\usepackage{hyperref}          % ハイパーリンク
+\usepackage{cite}              % 引用の最適化
+
+% ページ設定
+\usepackage[top=25mm, bottom=25mm, left=25mm, right=25mm]{geometry}
+
+% タイトル情報
+\title{論文タイトル}
+\author{著者名}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+ここに要旨を記述します。
+\end{abstract}
+
+\section{序論}
+ここに序論を記述します。参考文献を引用する場合は、\cite{example_article}のようにciteコマンドを使用します。
+
+複数の文献を引用する場合は、\cite{example_article, example_book}のように記述できます。
+
+\section{方法}
+ここに研究方法を記述します。
+
+\section{結果}
+ここに結果を記述します。
+
+\section{考察}
+ここに考察を記述します。
+
+\section{結論}
+ここに結論を記述します。
+
+% 参考文献
+\bibliographystyle{plain}  % 参考文献スタイル（plain, unsrt, alpha, abbrv など）
+\bibliography{references}   % references.bibファイルを参照
+
+\end{document}

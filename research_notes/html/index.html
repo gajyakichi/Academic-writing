@@ -188,6 +188,33 @@
         color: #5f6368;
       }
 
+      .side-by-side-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 10px;
+      }
+      
+      .editor-panel {
+        border-right: 1px solid #e8eaed;
+        padding-right: 20px;
+      }
+      
+      .preview-panel {
+        padding-left: 20px;
+        overflow-y: auto;
+        max-height: 600px;
+      }
+      
+      .panel-title {
+        font-size: 0.9em;
+        font-weight: 600;
+        color: #5f6368;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e8eaed;
+      }
+
       .note-editor {
         width: 100%;
         min-height: 500px;
@@ -204,6 +231,11 @@
         outline: none;
         border-color: #5f8aa7;
         box-shadow: 0 0 0 2px rgba(95, 138, 167, 0.1);
+      }
+      
+      .note-editor.side-by-side {
+        min-height: 550px;
+        max-height: 550px;
       }
 
       .note-content {
@@ -338,11 +370,17 @@
             </div>
 
             <div class="note-content" id="noteContent"></div>
-            <textarea
-              class="note-editor"
-              id="noteEditor"
-              style="display: none"
-            ></textarea>
+            
+            <div class="side-by-side-container" id="sideBySideContainer" style="display: none">
+              <div class="editor-panel">
+                <div class="panel-title">📝 Markdown編集</div>
+                <textarea class="note-editor side-by-side" id="noteEditorSide"></textarea>
+              </div>
+              <div class="preview-panel">
+                <div class="panel-title">👁️ ライブプレビュー</div>
+                <div class="note-content" id="livePreview"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -460,6 +498,7 @@
         document.getElementById("viewBtn").classList.remove("active");
         document.getElementById("editBtn").classList.add("active");
         document.getElementById("saveBtn").style.display = "inline-block";
+        document.getElementById("downloadBtn").style.display = "inline-block";
 
         const noteContent = document.getElementById("noteContent");
         const noteEditor = document.getElementById("noteEditor");
@@ -473,7 +512,13 @@
       function saveNote() {
         const editedContent = document.getElementById("noteEditor").value;
         notesData[selectedDate] = editedContent;
-
+        
+        alert("✅ 保存しました!\n\n編集内容がプレビューに反映されました。\n「表示」ボタンで確認できます。");
+      }
+      
+      function downloadNote() {
+        const editedContent = document.getElementById("noteEditor").value;
+        
         // ファイルとしてダウンロード
         const blob = new Blob([editedContent], { type: "text/markdown" });
         const url = URL.createObjectURL(blob);
@@ -484,13 +529,10 @@
         URL.revokeObjectURL(url);
 
         alert(
-          "✅ ノートを保存しました！\n\n編集内容は「" +
+          "⬇️ ダウンロードしました!\n\n「" +
             selectedDate +
-            ".md」としてダウンロードされました。\n元のファイルに上書きしてください。"
+            ".md」がダウンロードされました。\n元のファイルを上書きしてください。"
         );
-
-        // 表示モードに切り替え
-        switchToView();
       }
 
       function previousMonth() {

@@ -36,10 +36,19 @@ CHANGED_FILES=$(git diff --name-only HEAD@{1day}..HEAD 2>/dev/null | head -10 ||
 
 # ノート作成
 cat > "$NOTE_FILE" << EOF
+---
+tags: #研究 #論文 
+---
+
 # Research Note - $TODAY
 
 ## 📅 日付
 $TODAY
+
+## 🏷️ タグ
+#研究 #論文 
+
+<!-- タグの使い方: #タグ名 で記入（例: #実験 #データ解析 #統計） -->
 
 ## 🎯 今日の目標
 <!-- ここに今日の目標を記入 -->

@@ -1,0 +1,406 @@
+#!/bin/bash
+
+# 研究ノートをインタラクティブなHTMLカレンダービューに変換
+
+set -e
+
+NOTES_DIR="research_notes"
+HTML_DIR="$NOTES_DIR/html"
+OUTPUT_FILE="$HTML_DIR/index.html"
+
+echo "========================================"
+echo "📅 カレンダービュー生成中..."
+echo "========================================"
+
+# HTMLディレクトリの作成
+mkdir -p "$HTML_DIR"
+
+# すべてのノート日付を取得
+NOTE_DATES=$(find "$NOTES_DIR" -name "*.md" -not -name "SUMMARY.md" -not -name "README.md" | xargs -I {} basename {} .md | sort)
+
+# JSON形式でノートデータを生成
+echo "const notesData = {" > "$HTML_DIR/notes_data.js"
+
+for date in $NOTE_DATES; do
+    note_file="$NOTES_DIR/${date}.md"
+    
+    # Markdownを読み込んでJavaScript文字列としてエスケープ
+    content=$(cat "$note_file" | sed 's/\\/\\\\/g' | sed "s/'/\\\\'/g" | awk '{printf "%s\\n", $0}')
+    
+    echo "  '$date': \`$content\`," >> "$HTML_DIR/notes_data.js"
+done
+
+echo "};" >> "$HTML_DIR/notes_data.js"
+
+# メインHTMLファイルを生成
+cat > "$OUTPUT_FILE" << 'EOF'
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>研究ノート - カレンダービュー</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            min-height: 600px;
+        }
+        
+        .calendar-section {
+            border-right: 2px solid #e0e0e0;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .calendar-controls button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        
+        .calendar-controls button:hover {
+            background: #764ba2;
+        }
+        
+        .month-year {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            color: #667eea;
+            font-size: 0.9em;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            background: white;
+            border: 2px solid transparent;
+        }
+        
+        .calendar-day:hover {
+            background: #f0f0f0;
+        }
+        
+        .calendar-day.has-note {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .calendar-day.has-note:hover {
+            background: #764ba2;
+            transform: scale(1.1);
+        }
+        
+        .calendar-day.selected {
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .calendar-day.other-month {
+            color: #ccc;
+        }
+        
+        .note-section {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+        
+        .note-placeholder {
+            text-align: center;
+            color: #999;
+            padding: 100px 20px;
+        }
+        
+        .note-placeholder h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .note-content {
+            line-height: 1.8;
+        }
+        
+        .note-content h1 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .note-content h2 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .note-content h3 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .note-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .note-content li {
+            margin-bottom: 5px;
+        }
+        
+        .note-content code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .stats {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .stats-item {
+            display: inline-block;
+            margin: 0 15px;
+        }
+        
+        .stats-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stats-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 研究ノート</h1>
+            <p>Research Notes Calendar View</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="calendar-section">
+                <div class="calendar-controls">
+                    <button onclick="previousMonth()">◀ 前月</button>
+                    <div class="month-year" id="monthYear"></div>
+                    <button onclick="nextMonth()">次月 ▶</button>
+                </div>
+                
+                <div class="calendar" id="calendar"></div>
+                
+                <div class="stats">
+                    <div class="stats-item">
+                        <div class="stats-number" id="totalNotes">0</div>
+                        <div class="stats-label">総ノート数</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note-section">
+                <div class="note-placeholder" id="placeholder">
+                    <h2>📅 日付を選択</h2>
+                    <p>カレンダーから日付を選択して研究ノートを表示</p>
+                </div>
+                <div class="note-content" id="noteContent" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="notes_data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        let currentDate = new Date();
+        let selectedDate = null;
+        
+        // 統計情報を更新
+        document.getElementById('totalNotes').textContent = Object.keys(notesData).length;
+        
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            // 月年を表示
+            const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', 
+                              '7月', '8月', '9月', '10月', '11月', '12月'];
+            document.getElementById('monthYear').textContent = 
+                `${year}年 ${monthNames[month]}`;
+            
+            // カレンダーをクリア
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+            
+            // 曜日ヘッダー
+            const dayHeaders = ['日', '月', '火', '水', '木', '金', '土'];
+            dayHeaders.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-day-header';
+                header.textContent = day;
+                calendar.appendChild(header);
+            });
+            
+            // 月の最初の日と最後の日
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            
+            // 最初の週の空白
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day other-month';
+                calendar.appendChild(emptyDay);
+            }
+            
+            // 日付を追加
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                
+                // ノートがある日付をハイライト
+                if (notesData[dateStr]) {
+                    dayElement.classList.add('has-note');
+                    dayElement.onclick = () => showNote(dateStr);
+                }
+                
+                // 選択中の日付
+                if (selectedDate === dateStr) {
+                    dayElement.classList.add('selected');
+                }
+                
+                calendar.appendChild(dayElement);
+            }
+        }
+        
+        function showNote(dateStr) {
+            selectedDate = dateStr;
+            const noteMarkdown = notesData[dateStr];
+            
+            if (noteMarkdown) {
+                document.getElementById('placeholder').style.display = 'none';
+                const noteContent = document.getElementById('noteContent');
+                noteContent.style.display = 'block';
+                noteContent.innerHTML = marked.parse(noteMarkdown);
+            }
+            
+            renderCalendar();
+        }
+        
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        }
+        
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        }
+        
+        // 初期カレンダーレンダリング
+        renderCalendar();
+        
+        // 最新のノートを自動表示
+        const latestDate = Object.keys(notesData).sort().reverse()[0];
+        if (latestDate) {
+            const latestDateObj = new Date(latestDate);
+            currentDate = new Date(latestDateObj.getFullYear(), latestDateObj.getMonth(), 1);
+            renderCalendar();
+            showNote(latestDate);
+        }
+    </script>
+</body>
+</html>
+EOF
+
+echo ""
+echo "✅ カレンダービューを生成しました！"
+echo ""
+echo "📂 出力先: $OUTPUT_FILE"
+echo ""
+echo "🌐 ブラウザで開く:"
+echo "   open $OUTPUT_FILE"
+echo ""

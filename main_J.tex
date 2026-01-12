@@ -93,20 +93,68 @@
 
 図\ref{fig:survival}に示すように、治療群は対照群と比較して有意に良好な生存率を示した。
 
-% 表の例
-% \begin{table}[htbp]
-%   \centering
-%   \caption{表のキャプション}
-%   \label{tab:table1}
-%   \begin{tabular}{lcc}
-%     \hline
-%     項目 & 群A & 群B \\
-%     \hline
-%     値1 & 10.2 & 12.5 \\
-%     値2 & 8.7 & 9.3 \\
-%     \hline
-%   \end{tabular}
-% \end{table}
+
+% 表1: 基本的な表
+\begin{table}[htbp]
+  \centering
+  \caption{患者の基本特性}
+  \label{tab:baseline}
+  \begin{tabular}{lcc}
+    \hline
+    項目 & 対照群 (n=50) & 治療群 (n=50) \\
+    \hline
+    年齢（歳） & 65.2 $\pm$ 8.3 & 64.8 $\pm$ 7.9 \\
+    男性（\%） & 60.0 & 58.0 \\
+    BMI（kg/m²） & 24.5 $\pm$ 3.2 & 24.1 $\pm$ 3.0 \\
+    収縮期血圧（mmHg） & 135.2 $\pm$ 15.6 & 133.8 $\pm$ 14.2 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+表\ref{tab:baseline}に患者の基本特性を示す。
+
+% 表2: より詳細な表（複数列のヘッダー付き）
+\begin{table}[htbp]
+  \centering
+  \caption{治療効果の比較（平均値 $\pm$ 標準偏差）}
+  \label{tab:outcomes}
+  \begin{tabular}{lccc}
+    \hline
+    & ベースライン & 3ヶ月後 & p値 \\
+    \hline
+    \multicolumn{4}{l}{\textbf{対照群}} \\
+    代謝率（kcal/日） & 1650 $\pm$ 220 & 1620 $\pm$ 210 & 0.24 \\
+    体重（kg） & 68.5 $\pm$ 12.3 & 68.8 $\pm$ 12.5 & 0.56 \\
+    \hline
+    \multicolumn{4}{l}{\textbf{治療群}} \\
+    代謝率（kcal/日） & 1680 $\pm$ 230 & 1850 $\pm$ 240 & \textbf{0.001} \\
+    体重（kg） & 69.2 $\pm$ 11.8 & 67.5 $\pm$ 11.2 & \textbf{0.03} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+表\ref{tab:outcomes}に治療効果の詳細を示す。有意差のあるp値を太字で示している。
+
+% 表3: 多変量解析の結果
+\begin{table}[htbp]
+  \centering
+  \caption{SCDリスク因子の多変量解析}
+  \label{tab:multivariate}
+  \begin{tabular}{lccc}
+    \hline
+    リスク因子 & ハザード比 & 95\% CI & p値 \\
+    \hline
+    年齢（10歳増加） & 1.45 & 1.22--1.73 & \textbf{$<$0.001} \\
+    男性 & 1.32 & 0.98--1.78 & 0.07 \\
+    BMI（5 kg/m²増加） & 1.18 & 0.95--1.47 & 0.14 \\
+    高血圧 & 1.67 & 1.23--2.27 & \textbf{0.001} \\
+    糖尿病 & 1.89 & 1.34--2.66 & \textbf{$<$0.001} \\
+    喫煙 & 1.52 & 1.15--2.01 & \textbf{0.003} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+表\ref{tab:multivariate}に示すように、年齢、高血圧、糖尿病、喫煙が独立したSCDリスク因子であることが明らかになった。
 
 \section{考察}
 \subsection{主要な知見}

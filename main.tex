@@ -63,50 +63,99 @@ Write the baseline characteristics results here in English.
 \subsection{Main Results}
 Write the main results here in English.
 
-% Figure 1: Metabolic rate comparison
+% 図1: 代謝率の比較
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\textwidth]{figures/figure1_metabolism_comparison.pdf}
-  \caption{Comparison of metabolic rates between Group A and Group B. Error bars represent standard deviation.}
+  \caption{代謝率の比較。Group AとGroup Bの代謝率を示す。エラーバーは標準偏差を表す。}
   \label{fig:metabolism}
 \end{figure}
 
-As shown in Figure \ref{fig:metabolism}, Group B exhibited significantly higher metabolic rates compared to Group A.
+図\ref{fig:metabolism}に示すように、Group BはGroup Aと比較して有意に高い代謝率を示した。
 
-% Figure 2: Correlation plot
+% 図2: 相関図
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\textwidth]{figures/figure2_correlation.pdf}
-  \caption{Correlation between age and SCD risk score. A significant positive correlation was observed (R² = 0.67, p < 0.001).}
+  \caption{年齢とSCDリスクスコアの相関。有意な正の相関が認められた（R² = 0.67, p < 0.001）。}
   \label{fig:correlation}
 \end{figure}
 
-A strong positive correlation was found between age and SCD risk score (Figure \ref{fig:correlation}).
+年齢とSCDリスクスコアの間には強い正の相関が認められた（図\ref{fig:correlation}）。
 
-% Figure 3: Survival curve
+% 図3: 生存曲線
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\textwidth]{figures/figure3_survival_curve.pdf}
-  \caption{Kaplan-Meier survival curves. The treatment group showed significantly better prognosis compared to the control group (Log-rank p < 0.05).}
+  \caption{Kaplan-Meier生存曲線。治療群は対照群と比較して有意に良好な予後を示した（Log-rank p < 0.05）。}
   \label{fig:survival}
 \end{figure}
 
-As shown in Figure \ref{fig:survival}, the treatment group demonstrated significantly better survival rates compared to the control group.
+図\ref{fig:survival}に示すように、治療群は対照群と比較して有意に良好な生存率を示した。
 
-% Example of table
-% \begin{table}[htbp]
-%   \centering
-%   \caption{Table caption}
-%   \label{tab:table1}
-%   \begin{tabular}{lcc}
-%     \hline
-%     Item & Group A & Group B \\
-%     \hline
-%     Value 1 & 10.2 & 12.5 \\
-%     Value 2 & 8.7 & 9.3 \\
-%     \hline
-%   \end{tabular}
-% \end{table}
+
+
+% Table 1: Basic table
+\begin{table}[htbp]
+  \centering
+  \caption{Patient Baseline Characteristics}
+  \label{tab:baseline}
+  \begin{tabular}{lcc}
+    \hline
+    Variable & Control (n=50) & Treatment (n=50) \\
+    \hline
+    Age (years) & 65.2 $\pm$ 8.3 & 64.8 $\pm$ 7.9 \\
+    Male (\%) & 60.0 & 58.0 \\
+    BMI (kg/m²) & 24.5 $\pm$ 3.2 & 24.1 $\pm$ 3.0 \\
+    Systolic BP (mmHg) & 135.2 $\pm$ 15.6 & 133.8 $\pm$ 14.2 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Table \ref{tab:baseline} shows the baseline characteristics of patients.
+
+% Table 2: More detailed table with grouped headers
+\begin{table}[htbp]
+  \centering
+  \caption{Comparison of Treatment Effects (Mean $\pm$ SD)}
+  \label{tab:outcomes}
+  \begin{tabular}{lccc}
+    \hline
+    & Baseline & 3 months & p value \\
+    \hline
+    \multicolumn{4}{l}{\textbf{Control Group}} \\
+    Metabolic rate (kcal/day) & 1650 $\pm$ 220 & 1620 $\pm$ 210 & 0.24 \\
+    Body weight (kg) & 68.5 $\pm$ 12.3 & 68.8 $\pm$ 12.5 & 0.56 \\
+    \hline
+    \multicolumn{4}{l}{\textbf{Treatment Group}} \\
+    Metabolic rate (kcal/day) & 1680 $\pm$ 230 & 1850 $\pm$ 240 & \textbf{0.001} \\
+    Body weight (kg) & 69.2 $\pm$ 11.8 & 67.5 $\pm$ 11.2 & \textbf{0.03} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Table \ref{tab:outcomes} shows detailed treatment effects. Significant p values are shown in bold.
+
+% Table 3: Multivariate analysis results
+\begin{table}[htbp]
+  \centering
+  \caption{Multivariate Analysis of SCD Risk Factors}
+  \label{tab:multivariate}
+  \begin{tabular}{lccc}
+    \hline
+    Risk Factor & Hazard Ratio & 95\% CI & p value \\
+    \hline
+    Age (per 10 years) & 1.45 & 1.22--1.73 & \textbf{$<$0.001} \\
+    Male sex & 1.32 & 0.98--1.78 & 0.07 \\
+    BMI (per 5 kg/m²) & 1.18 & 0.95--1.47 & 0.14 \\
+    Hypertension & 1.67 & 1.23--2.27 & \textbf{0.001} \\
+    Diabetes & 1.89 & 1.34--2.66 & \textbf{$<$0.001} \\
+    Smoking & 1.52 & 1.15--2.01 & \textbf{0.003} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+As shown in Table \ref{tab:multivariate}, age, hypertension, diabetes, and smoking were identified as independent SCD risk factors.
 
 \section{Discussion}
 \subsection{Main Findings}

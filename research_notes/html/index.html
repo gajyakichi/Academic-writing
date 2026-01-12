@@ -330,7 +330,10 @@
               </button>
               <button id="editBtn" onclick="switchToEdit()">✏️ 編集</button>
               <button id="saveBtn" onclick="saveNote()" style="display: none">
-                💾 保存 (ダウンロード)
+                💾 保存
+              </button>
+              <button id="downloadBtn" onclick="downloadNote()" style="display: none">
+                ⬇️ ダウンロード
               </button>
             </div>
 
@@ -441,6 +444,7 @@
         document.getElementById("viewBtn").classList.add("active");
         document.getElementById("editBtn").classList.remove("active");
         document.getElementById("saveBtn").style.display = "none";
+        document.getElementById("downloadBtn").style.display = "none";
 
         const noteContent = document.getElementById("noteContent");
         const noteEditor = document.getElementById("noteEditor");

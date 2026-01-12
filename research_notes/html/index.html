@@ -484,13 +484,10 @@
         document.getElementById("saveBtn").style.display = "none";
         document.getElementById("downloadBtn").style.display = "none";
 
-        const noteContent = document.getElementById("noteContent");
-        const noteEditor = document.getElementById("noteEditor");
+        document.getElementById("noteContent").style.display = "block";
+        document.getElementById("sideBySideContainer").style.display = "none";
 
-        noteContent.style.display = "block";
-        noteEditor.style.display = "none";
-
-        noteContent.innerHTML = marked.parse(notesData[selectedDate]);
+        document.getElementById("noteContent").innerHTML = marked.parse(notesData[selectedDate]);
       }
 
       function switchToEdit() {
@@ -500,24 +497,34 @@
         document.getElementById("saveBtn").style.display = "inline-block";
         document.getElementById("downloadBtn").style.display = "inline-block";
 
-        const noteContent = document.getElementById("noteContent");
-        const noteEditor = document.getElementById("noteEditor");
+        document.getElementById("noteContent").style.display = "none";
+        document.getElementById("sideBySideContainer").style.display = "grid";
 
-        noteContent.style.display = "none";
-        noteEditor.style.display = "block";
-
-        noteEditor.value = notesData[selectedDate];
+        const editor = document.getElementById("noteEditorSide");
+        editor.value = notesData[selectedDate];
+        
+        // 初期プレビューを表示
+        updateLivePreview();
+        
+        // リアルタイム更新を設定
+        editor.oninput = updateLivePreview;
+      }
+      
+      function updateLivePreview() {
+        const editor = document.getElementById("noteEditorSide");
+        const preview = document.getElementById("livePreview");
+        preview.innerHTML = marked.parse(editor.value);
       }
 
       function saveNote() {
-        const editedContent = document.getElementById("noteEditor").value;
+        const editedContent = document.getElementById("noteEditorSide").value;
         notesData[selectedDate] = editedContent;
         
         alert("✅ 保存しました!\n\n編集内容がプレビューに反映されました。\n「表示」ボタンで確認できます。");
       }
       
       function downloadNote() {
-        const editedContent = document.getElementById("noteEditor").value;
+        const editedContent = document.getElementById("noteEditorSide").value;
         
         // ファイルとしてダウンロード
         const blob = new Blob([editedContent], { type: "text/markdown" });
@@ -534,7 +541,6 @@
             ".md」がダウンロードされました。\n元のファイルを上書きしてください。"
         );
       }
-
       function previousMonth() {
         currentDate.setMonth(currentDate.getMonth() - 1);
         renderCalendar();

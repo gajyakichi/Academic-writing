@@ -1,0 +1,345 @@
+% ============================================================
+% 研究計画書テンプレート（日本語版）
+% ============================================================
+% これは研究計画書のテンプレートファイルです
+% 各セクションを自分の研究内容に置き換えてください
+%
+% コンパイル方法:
+%   ./compile_J.sh（main_J.texと同じ方法）
+% ============================================================
+
+\documentclass[12pt, a4paper]{article}
+
+% 日本語対応
+\usepackage[japanese]{babel}
+
+% 基本パッケージ
+\usepackage{amsmath, amssymb}  % 数式
+\usepackage{graphicx}          % 図の挿入
+\usepackage{hyperref}          % ハイパーリンク
+\usepackage{cite}              % 引用の最適化
+\usepackage{longtable}         % 長い表
+\usepackage{array}             % 表の拡張
+
+% ページ設定
+\usepackage[top=25mm, bottom=25mm, left=25mm, right=25mm]{geometry}
+
+% ============================================================
+% タイトル情報 - ご自身の情報に置き換えてください
+% ============================================================
+\title{研究計画書\\[0.5em]{\large 代謝とSCDに関する前向きコホート研究}}
+\author{山口怜\\医学研究科}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{研究の背景}
+
+\subsection{問題の重要性}
+
+心血管疾患は世界的な主要な死因であり、その中でも心臓突然死（Sudden Cardiac Death; SCD）は予後不良な病態である。近年、代謝機能とSCDリスクの関連が注目されているが、その詳細なメカニズムは十分に解明されていない。
+
+\subsection{先行研究のレビュー}
+
+これまでの研究により、以下のことが明らかになっている：
+
+\begin{itemize}
+  \item 代謝異常はSCDリスクの独立した予測因子である\cite{example_article}
+  \item 基礎代謝率の低下は心血管イベントと関連する\cite{example_book}
+  \item しかし、介入研究は限定的である
+\end{itemize}
+
+\subsection{知識のギャップ}
+
+先行研究の限界として、以下の点が挙げられる：
+
+\begin{enumerate}
+  \item 縦断的なデータが不足している
+  \item 介入効果を評価した研究が少ない
+  \item 日本人を対象とした大規模研究がない
+\end{enumerate}
+
+本研究は、これらのギャップを埋めることを目的とする。
+
+\section{研究の目的}
+
+\subsection{主要目的}
+
+代謝機能改善介入がSCDリスクに与える影響を、前向きコホート研究により明らかにする。
+
+\subsection{副次的目的}
+
+\begin{itemize}
+  \item 代謝指標とSCDリスクの用量反応関係を評価する
+  \item 介入効果の持続性を検討する
+  \item サブグループ解析により効果修飾因子を同定する
+\end{itemize}
+
+\subsection{研究仮説}
+
+\textbf{主仮説：}代謝機能改善介入により、対照群と比較してSCD発生率が30\%以上減少する。
+
+\textbf{副次仮説：}介入効果は、年齢、性別、既往歴により修飾される。
+
+\section{研究方法}
+
+\subsection{研究デザイン}
+
+\begin{itemize}
+  \item \textbf{研究タイプ：}多施設共同前向きコホート研究
+  \item \textbf{研究期間：}2026年4月〜2029年3月（3年間）
+  \item \textbf{フォローアップ期間：}24ヶ月
+\end{itemize}
+
+\subsection{対象集団}
+
+\subsubsection{選択基準}
+
+\begin{itemize}
+  \item 年齢：40〜75歳
+  \item 代謝症候群の診断基準を満たす者
+  \item 書面による同意が得られた者
+\end{itemize}
+
+\subsubsection{除外基準}
+
+\begin{itemize}
+  \item 既知の重篤な心疾患を有する者
+  \item 悪性腫瘍の既往がある者
+  \item 研究への参加が困難と判断される者
+\end{itemize}
+
+\subsection{サンプルサイズ設計}
+
+必要サンプルサイズの計算：
+
+\begin{itemize}
+  \item 予想されるSCD発生率（対照群）：10\%/2年
+  \item 介入による相対リスク減少：30\%
+  \item 検出力：80\%
+  \item 有意水準：両側5\%
+  \item 脱落率：15\%
+\end{itemize}
+
+計算の結果、\textbf{各群500名、計1,000名}が必要と算出された。
+
+\subsection{介入内容}
+
+\subsubsection{介入群}
+
+\begin{enumerate}
+  \item 個別化された運動プログラム（週3回、60分）
+  \item 栄養指導（月1回、管理栄養士による）
+  \item 行動変容支援（スマートフォンアプリ使用）
+\end{enumerate}
+
+\subsubsection{対照群}
+
+\begin{itemize}
+  \item 通常ケア
+  \item 6ヶ月ごとの定期健診
+  \item パンフレットによる情報提供
+\end{itemize}
+
+\subsection{評価項目}
+
+\subsubsection{主要評価項目}
+
+24ヶ月間のSCD発生率（心停止による突然死または蘇生された心停止）
+
+\subsubsection{副次評価項目}
+
+\begin{itemize}
+  \item 総死亡率
+  \item 心血管イベントの発生率
+  \item 代謝指標の変化（体重、BMI、基礎代謝率）
+  \item QOLスコアの変化
+\end{itemize}
+
+\subsection{データ収集}
+
+\begin{table}[htbp]
+  \centering
+  \caption{データ収集スケジュール}
+  \label{tab:schedule}
+  \begin{tabular}{lccccccc}
+    \hline
+    評価項目 & ベースライン & 3ヶ月 & 6ヶ月 & 12ヶ月 & 18ヶ月 & 24ヶ月 \\
+    \hline
+    身体計測 & ○ & ○ & ○ & ○ & ○ & ○ \\
+    血液検査 & ○ & & ○ & ○ & & ○ \\
+    心電図 & ○ & & ○ & ○ & & ○ \\
+    代謝測定 & ○ & & ○ & ○ & & ○ \\
+    QOL調査 & ○ & & ○ & ○ & & ○ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{統計解析}
+
+\subsubsection{主要解析}
+
+\begin{itemize}
+  \item Intention-to-treat解析を主解析とする
+  \item Kaplan-Meier法によるイベント発生率の推定
+  \item Log-rank検定による群間比較
+  \item Cox比例ハザードモデルによる多変量解析
+\end{itemize}
+
+\subsubsection{副次解析}
+
+\begin{itemize}
+  \item Per-protocol解析
+  \item サブグループ解析（性別、年齢層、併存疾患別）
+  \item 感度分析
+\end{itemize}
+
+\subsubsection{統計ソフトウェア}
+
+R version 4.3以降、有意水準は両側5\%とする。
+
+\section{倫理的配慮}
+
+\subsection{倫理審査}
+
+本研究は、所属機関の倫理委員会の承認を得た後に開始する。ヘルシンキ宣言および「人を対象とする生命科学・医学系研究に関する倫理指針」を遵守する。
+
+\subsection{インフォームドコンセント}
+
+\begin{itemize}
+  \item 研究参加前に、十分な説明を行う
+  \item 書面による同意を取得する
+  \item 研究参加はいつでも撤回可能であることを説明する
+\end{itemize}
+
+\subsection{個人情報保護}
+
+\begin{itemize}
+  \item データは匿名化して管理する
+  \item 個人情報は施錠可能な場所に保管する
+  \item データアクセスは研究責任者が管理する
+\end{itemize}
+
+\subsection{利益相反}
+
+本研究に関連する利益相反はない。
+
+\section{研究スケジュール}
+
+\begin{table}[htbp]
+  \centering
+  \caption{研究スケジュール}
+  \label{tab:timeline}
+  \begin{tabular}{lp{10cm}}
+    \hline
+    時期 & 内容 \\
+    \hline
+    2026年4月〜6月 & 倫理審査、研究準備、スタッフトレーニング \\
+    2026年7月〜12月 & 対象者リクルート、ベースライン評価 \\
+    2027年1月〜2028年12月 & 介入実施、フォローアップ \\
+    2029年1月〜3月 & データ解析、論文執筆 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{予算計画}
+
+\subsection{必要経費}
+
+\begin{table}[htbp]
+  \centering
+  \caption{予算内訳}
+  \label{tab:budget}
+  \begin{tabular}{lrr}
+    \hline
+    項目 & 単価（円） & 合計（円） \\
+    \hline
+    人件費 & & 10,000,000 \\
+    \quad 研究補助員（2名、3年） & & 6,000,000 \\
+    \quad データマネージャー（1名、2年） & & 4,000,000 \\
+    \hline
+    検査費用 & & 15,000,000 \\
+    \quad 代謝測定（1,000名×3回） & 5,000 & 15,000,000 \\
+    \hline
+    介入費用 & & 8,000,000 \\
+    \quad 運動指導 & & 5,000,000 \\
+    \quad 栄養指導 & & 3,000,000 \\
+    \hline
+    その他 & & 2,000,000 \\
+    \quad アプリ開発・運用 & & 1,500,000 \\
+    \quad 消耗品費 & & 500,000 \\
+    \hline
+    \textbf{合計} & & \textbf{35,000,000} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{資金源}
+
+\begin{itemize}
+  \item 科学研究費補助金（予定）
+  \item 学内研究費
+  \item 民間財団研究助成（申請予定）
+\end{itemize}
+
+\section{期待される成果}
+
+\subsection{学術的意義}
+
+\begin{itemize}
+  \item 代謝とSCDの因果関係の解明
+  \item 介入効果のエビデンス創出
+  \item 国際的なガイドライン策定への貢献
+\end{itemize}
+
+\subsection{社会的意義}
+
+\begin{itemize}
+  \item SCD予防戦略の確立
+  \item 医療費削減への貢献
+  \item 国民の健康寿命延伸
+\end{itemize}
+
+\subsection{成果発表計画}
+
+\begin{itemize}
+  \item 国際学会での発表（年1回以上）
+  \item 査読付き論文の発表（計3報以上）
+  \item 一般向けセミナーの開催
+\end{itemize}
+
+\section{研究の限界と対策}
+
+\subsection{想定される限界}
+
+\begin{enumerate}
+  \item フォローアップ期間の脱落
+  \item 介入の標準化の困難さ
+  \item 外部妥当性の限界
+\end{enumerate}
+
+\subsection{対策}
+
+\begin{itemize}
+  \item 定期的な連絡による脱落防止
+  \item 詳細な介入マニュアルの作成
+  \item 多施設共同研究による一般化可能性の向上
+\end{itemize}
+
+\section{参考文献}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+% 参考文献がない場合は、以下のように手動で記載することもできます
+% \begin{thebibliography}{99}
+% \bibitem{example_article}
+% 著者名. 論文タイトル. ジャーナル名. 年;巻:ページ.
+% \end{thebibliography}
+
+\end{document}

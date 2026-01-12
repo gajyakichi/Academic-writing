@@ -19,21 +19,21 @@ pip install openpyxl
 
 ```bash
 # CSVファイルから変換
-python3 csv_to_latex.py data/sample_baseline.csv
+python3 csv_to_latex.py tables/sample_baseline.csv
 
 # キャプションとラベルを指定
-python3 csv_to_latex.py data/sample_baseline.csv \
+python3 csv_to_latex.py tables/sample_baseline.csv \
   -c "患者の基本特性" \
   -l "tab:baseline"
 
 # ファイルに出力
-python3 csv_to_latex.py data/sample_baseline.csv \
+python3 csv_to_latex.py tables/sample_baseline.csv \
   -c "患者の基本特性" \
   -l "tab:baseline" \
   -o tables/baseline_table.tex
 
 # Excelファイルから変換
-python3 csv_to_latex.py data/mydata.xlsx \
+python3 csv_to_latex.py tables/mydata.xlsx \
   -c "表のタイトル" \
   -l "tab:mydata"
 ```
@@ -50,7 +50,7 @@ python3 csv_to_latex.py data/mydata.xlsx \
 #### 例 1: 基本特性表の変換
 
 ```bash
-python3 csv_to_latex.py data/sample_baseline.csv \
+python3 csv_to_latex.py tables/sample_baseline.csv \
   -c "患者の基本特性" \
   -l "tab:baseline" \
   -o tables/baseline.tex
@@ -78,7 +78,7 @@ python3 csv_to_latex.py data/sample_baseline.csv \
 #### 例 2: 多変量解析の結果
 
 ```bash
-python3 csv_to_latex.py data/sample_multivariate.csv \
+python3 csv_to_latex.py tables/sample_multivariate.csv \
   -c "SCDリスク因子の多変量解析" \
   -l "tab:multivariate" \
   -o tables/multivariate.tex
@@ -114,7 +114,7 @@ CSV ファイルを直接 LaTeX 文書から読み込む方法もあります。
   \centering
   \caption{患者の基本特性}
   \label{tab:baseline}
-  \csvautotabular{data/sample_baseline.csv}
+  \csvautotabular{tables/sample_baseline.csv}
 \end{table}
 ```
 
@@ -130,7 +130,7 @@ CSV ファイルを直接 LaTeX 文書から読み込む方法もあります。
     table head=\hline 変数 & 対照群 & 治療群 & p値 \\\hline,
     late after line=\\,
     table foot=\hline
-  ]{data/sample_baseline.csv}{}%
+  ]{tables/sample_baseline.csv}{}%
   {\csvcoli & \csvcolii & \csvcoliii & \csvcoliv}
 \end{table}
 ```
@@ -179,8 +179,8 @@ CSV ファイルを直接 LaTeX 文書から読み込む方法もあります。
 ### 1. データの準備
 
 ```bash
-# data/ ディレクトリにCSVファイルを配置
-data/
+# tables/ ディレクトリにCSVファイルを配置
+tables/
   patient_baseline.csv
   treatment_outcomes.csv
   multivariate_analysis.csv
@@ -190,7 +190,7 @@ data/
 
 ```bash
 # すべてのCSVファイルを変換
-for file in data/*.csv; do
+for file in tables/*.csv; do
   basename=$(basename "$file" .csv)
   python3 csv_to_latex.py "$file" \
     -c "表のタイトル" \
@@ -223,10 +223,10 @@ CSV ファイルが UTF-8 で保存されているか確認：
 
 ```bash
 # ファイルのエンコーディングを確認
-file -I data/your_file.csv
+file -I tables/your_file.csv
 
 # UTF-8に変換（必要な場合）
-iconv -f SHIFT-JIS -t UTF-8 data/your_file.csv > data/your_file_utf8.csv
+iconv -f SHIFT-JIS -t UTF-8 tables/your_file.csv > tables/your_file_utf8.csv
 ```
 
 ### エラー: openpyxl がない
@@ -250,7 +250,7 @@ pip install openpyxl
 #!/bin/bash
 # convert_all_csv.sh
 
-for csv in data/*.csv; do
+for csv in tables/*.csv; do
   name=$(basename "$csv" .csv)
   python3 csv_to_latex.py "$csv" \
     -c "$(echo $name | tr '_' ' ')" \
@@ -284,8 +284,8 @@ CSV の中で LaTeX コマンドを使用：
 
 プロジェクトに含まれるサンプルファイル：
 
-- `data/sample_baseline.csv` - 患者の基本特性
-- `data/sample_multivariate.csv` - 多変量解析の結果
+- `tables/sample_baseline.csv` - 患者の基本特性
+- `tables/sample_multivariate.csv` - 多変量解析の結果
 
 これらを参考に独自の CSV ファイルを作成してください。
 

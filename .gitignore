@@ -22,7 +22,16 @@ main.tex
 # 研究ノートの内容
 research_notes/**/*.md
 !research_notes/README.md
+
+# 研究ノートHTMLビュー（生成ファイル）
 research_notes/html/notes_data.js
+research_notes/html/index.html
+research_notes/html/index_backup_*.html
+research_notes/html/test.html
+
+# シェルスクリプトのバックアップ
+scripts/*.bak
+scripts/*.bak2
 
 # データファイル
 tables/*.csv

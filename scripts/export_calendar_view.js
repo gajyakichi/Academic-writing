@@ -1,44 +1,59 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-# 研究ノートをインタラクティブなHTMLカレンダービューに変換
-# リストビュー、検索、タグ機能を含む
+/**
+ * 研究ノートをインタラクティブなHTMLカレンダービューに変換
+ * リストビュー、検索、タグ機能を含む
+ */
 
-set -e
+const fs = require('fs');
+const path = require('path');
 
-NOTES_DIR="research_notes"
-HTML_DIR="$NOTES_DIR/html"
-OUTPUT_FILE="$HTML_DIR/index.html"
+const NOTES_DIR = 'research_notes';
+const HTML_DIR = path.join(NOTES_DIR, 'html');
+const OUTPUT_HTML = path.join(HTML_DIR, 'index.html');
+const OUTPUT_DATA = path.join(HTML_DIR, 'notes_data.js');
 
-echo "========================================"
-echo "📅 カレンダービュー生成中..."
-echo "========================================"
+console.log('========================================');
+console.log('📅 カレンダービュー生成中...');
+console.log('========================================');
+console.log('');
 
-# HTMLディレクトリの作成
-mkdir -p "$HTML_DIR"
+// HTMLディレクトリの作成
+if (!fs.existsSync(HTML_DIR)) {
+    fs.mkdirSync(HTML_DIR, { recursive: true });
+}
 
-# すべてのノート日付を取得
-NOTE_DATES=$(find "$NOTES_DIR" -name "*.md" -not -name "SUMMARY.md" -not -name "README.md" | xargs -I {} basename {} .md | sort)
+// すべての .md ファイルを取得（SUMMARY.md と README.md を除く）
+const noteFiles = fs.readdirSync(NOTES_DIR)
+    .filter(file => 
+        file.endsWith('.md') && 
+        file !== 'SUMMARY.md' && 
+        file !== 'README.md'
+    )
+    .sort();
 
-# JSON形式でノートデータを生成
-echo "const notesData = {" > "$HTML_DIR/notes_data.js"
+console.log(`📝 ${noteFiles.length} 個のノートを処理中...`);
 
-for date in $NOTE_DATES; do
-    note_file="$NOTES_DIR/${date}.md"
+// notes_data.js を生成
+const notesData = {};
+
+for (const file of noteFiles) {
+    const date = path.basename(file, '.md');
+    const filePath = path.join(NOTES_DIR, file);
+    const content = fs.readFileSync(filePath, 'utf-8');
     
-    # Markdownを読み込んでJavaScript文字列としてエスケープ
-    # バックスラッシュ、シングルクォート、バッククオート、ドル記号をエスケープ
-    content=$(cat "$note_file" | sed 's/\\/\\\\/g' | sed "s/'/\\\\'/g" | sed 's/`/\\`/g' | sed 's/\$/\\\$/g' | awk '{printf "%s\\n", $0}')
-    
-    echo "  '$date': \`$content\`," >> "$HTML_DIR/notes_data.js"
-done
+    // JSON.stringify で自動的にエスケープされる
+    notesData[date] = content;
+}
 
-echo "};" >> "$HTML_DIR/notes_data.js"
+// notes_data.js を書き出し（テンプレートリテラルではなく、JSON.stringify を使用）
+const dataJsContent = `const notesData = ${JSON.stringify(notesData, null, 2)};\n`;
+fs.writeFileSync(OUTPUT_DATA, dataJsContent, 'utf-8');
 
-# メインHTMLファイルを生成（リストビュー・検索・タグ機能付き）
-cp "$NOTES_DIR/html/index.html" "$NOTES_DIR/html/index_backup_$(date +%Y%m%d_%H%M%S).html" 2>/dev/null || true
+console.log(`✅ notes_data.js を生成しました`);
 
-cat > "$OUTPUT_FILE" << 'HTMLEOF'
-<!DOCTYPE html>
+// index.html を生成
+const htmlContent = `<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -572,7 +587,7 @@ cat > "$OUTPUT_FILE" << 'HTMLEOF'
         
         // タグを抽出する関数
         function extractTags(content) {
-            const tagRegex = /#[^\s#]+/g;
+            const tagRegex = /#[^\\s#]+/g;
             const matches = content.match(tagRegex);
             return matches ? [...new Set(matches)] : [];
         }
@@ -608,18 +623,18 @@ cat > "$OUTPUT_FILE" << 'HTMLEOF'
             
             noResults.style.display = 'none';
             listContainer.innerHTML = notes.map(note => {
-                const preview = note.content.replace(/[#*`\n-]/g, ' ').replace(/tags:/gi, '').substring(0, 150);
+                const preview = note.content.replace(/[#*\`\\n-]/g, ' ').replace(/tags:/gi, '').substring(0, 150);
                 const isSelected = selectedDate === note.date ? 'selected' : '';
                 const tagsHTML = note.tags.length > 0 
-                    ? `<div class="note-tags">${note.tags.map(tag => `<span class="tag" onclick="filterByTag('${tag}')">${tag}</span>`).join('')}</div>`
+                    ? \`<div class="note-tags">\${note.tags.map(tag => \`<span class="tag" onclick="filterByTag('\${tag}')">\${tag}</span>\`).join('')}</div>\`
                     : '';
-                return `
-                    <div class="note-item ${isSelected}" onclick="showNoteFromList('${note.date}')">
-                        <div class="note-date">📅 ${note.date}</div>
-                        ${tagsHTML}
-                        <div class="note-preview">${preview}...</div>
+                return \`
+                    <div class="note-item \${isSelected}" onclick="showNoteFromList('\${note.date}')">
+                        <div class="note-date">📅 \${note.date}</div>
+                        \${tagsHTML}
+                        <div class="note-preview">\${preview}...</div>
                     </div>
-                `;
+                \`;
             }).join('');
         }
         
@@ -656,7 +671,7 @@ cat > "$OUTPUT_FILE" << 'HTMLEOF'
             const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', 
                               '7月', '8月', '9月', '10月', '11月', '12月'];
             document.getElementById('monthYear').textContent = 
-                `${year}年 ${monthNames[month]}`;
+                \`\${year}年 \${monthNames[month]}\`;
             
             const calendar = document.getElementById('calendar');
             calendar.innerHTML = '';
@@ -683,7 +698,7 @@ cat > "$OUTPUT_FILE" << 'HTMLEOF'
                 dayElement.className = 'calendar-day';
                 dayElement.textContent = day;
                 
-                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dateStr = \`\${year}-\${String(month + 1).padStart(2, '0')}-\${String(day).padStart(2, '0')}\`;
                 
                 if (notesData[dateStr]) {
                     dayElement.classList.add('has-note');
@@ -763,7 +778,7 @@ cat > "$OUTPUT_FILE" << 'HTMLEOF'
                 allNotes[noteIndex].tags = extractTags(editedContent);
             }
             
-            alert('✅ 保存しました!\n\n編集内容がプレビューに反映されました。\n「表示」ボタンで確認できます。');
+            alert('✅ 保存しました!\\n\\n編集内容がプレビューに反映されました。\\n「表示」ボタンで確認できます。');
         }
         
         function downloadNote() {
@@ -773,14 +788,14 @@ cat > "$OUTPUT_FILE" << 'HTMLEOF'
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${selectedDate}.md`;
+            a.download = \`\${selectedDate}.md\`;
             a.click();
             URL.revokeObjectURL(url);
             
             alert(
-                '⬇️ ダウンロードしました!\n\n「' +
+                '⬇️ ダウンロードしました!\\n\\n「' +
                 selectedDate +
-                '.md」がダウンロードされました。\n元のファイルを上書きしてください。'
+                '.md」がダウンロードされました。\\n元のファイルを上書きしてください。'
             );
         }
         
@@ -806,41 +821,22 @@ cat > "$OUTPUT_FILE" << 'HTMLEOF'
     </script>
 </body>
 </html>
-HTMLEOF
+`;
 
-echo ""
-echo "🔍 JavaScript構文チェック中..."
+fs.writeFileSync(OUTPUT_HTML, htmlContent, 'utf-8');
 
-# notes_data.jsの構文チェック
-if command -v node &> /dev/null; then
-    if node -c "$HTML_DIR/notes_data.js" 2>&1; then
-        echo "✅ notes_data.js の構文チェックOK"
-    else
-        echo "❌ エラー: notes_data.js に構文エラーがあります"
-        echo ""
-        echo "⚠️  修正方法:"
-        echo "   1. スクリプトを再実行してください"
-        echo "   2. それでもエラーが出る場合は、research_notes/ 内の .md ファイルに"
-        echo "      特殊文字(バッククオートやドル記号など)が含まれていないか確認してください"
-        echo ""
-        exit 1
-    fi
-else
-    echo "⚠️  警告: node.js がインストールされていないため構文チェックをスキップしました"
-    echo "   構文チェックを有効にするには node.js をインストールしてください"
-fi
-
-echo ""
-echo "✅ カレンダービューを生成しました！"
-echo ""
-echo "📂 出力先: $OUTPUT_FILE"
-echo ""
-echo "🌐 ブラウザで開く:"
-echo "   open $OUTPUT_FILE"
-echo ""
-echo "✨ 新機能:"
-echo "   - 📅 カレンダービュー / 📋 リストビュー切り替え"
-echo "   - 🔍 全文検索（タグ、内容、日付）"
-echo "   - 🏷️ タグ表示とタグフィルター"
-echo "   - ✏️ サイドバイサイド編集"
-echo ""
+console.log('✅ index.html を生成しました');
+console.log('');
+console.log('✅ カレンダービューを生成しました！');
+console.log('');
+console.log(`📂 出力先: ${OUTPUT_HTML}`);
+console.log('');
+console.log('🌐 ブラウザで開く:');
+console.log(`   open ${OUTPUT_HTML}`);
+console.log('');
+console.log('✨ 新機能:');
+console.log('   - 📅 カレンダービュー / 📋 リストビュー切り替え');
+console.log('   - 🔍 全文検索（タグ、内容、日付）');
+console.log('   - 🏷️ タグ表示とタグフィルター');
+console.log('   - ✏️ サイドバイサイド編集');
+console.log('');

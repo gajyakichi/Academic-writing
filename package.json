@@ -1,0 +1,12 @@
+{
+  "name": "metabolism-vs-scd-research",
+  "version": "1.0.0",
+  "description": "学術論文執筆プロジェクト with LaTeX & BibTeX",
+  "scripts": {
+    "notes:export": "node scripts/export_calendar_view.js",
+    "notes:serve": "cd research_notes/html && python3 -m http.server 8000"
+  },
+  "keywords": ["latex", "research", "bibtex", "academic"],
+  "author": "",
+  "license": "MIT"
+}

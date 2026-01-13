@@ -254,10 +254,13 @@ git push
 ## 📖 ドキュメント
 
 - **`README.md`** - このファイル（全体概要）
-- **`TABLES_GUIDE.md`** - LaTeX 表作成の詳細ガイド
-- **`CSV_TO_TABLE_GUIDE.md`** - CSV/Excel 変換の詳細ガイド
-- **`figures/README.md`** - 図の使い方
-- **`tables/README.md`** - データファイルの使い方
+- **`MULTI_DEVICE_WORKFLOW.md`** - 🔄 複数デバイスでの使い方（Git ベース）
+- **`WRITING_GUIDELINES.md`** - ✍️ 論文執筆ガイドライン（Known-Unknown-やったこと）
+- **`BEGINNER_GUIDE.md`** - 📚 LaTeX 初心者ガイド
+- **`TABLES_GUIDE.md`** - 📋 LaTeX 表作成の詳細ガイド
+- **`CSV_TO_TABLE_GUIDE.md`** - 📊 CSV/Excel 変換の詳細ガイド
+- **`figures/README.md`** - 🖼️ 図の使い方
+- **`tables/README.md`** - 📁 データファイルの使い方
 
 ## 🎓 ワークフロー例
 

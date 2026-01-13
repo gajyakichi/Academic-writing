@@ -496,12 +496,16 @@
                     <div class="card-title">研究ノート</div>
                 </div>
                 <div class="card-description">
-                    日々の研究活動を記録・管理します。カレンダービューで過去のノートを確認できます。
+                    日々の研究活動を記録・管理します。カレンダービューで過去のノートを確認・検索できます。<br>
+                    <small style="color: #5f8aa7;">💡 ファイル名は必ず <code>YYYY-MM-DD.md</code> 形式にしてください</small>
                 </div>
                 <div class="action-buttons">
                     <a href="research_notes/html/index.html" class="btn btn-primary">
                         📅 カレンダービューを開く
                     </a>
+                    <button onclick="exportCalendar()" class="btn btn-secondary">
+                        🔄 カレンダーを更新
+                    </button>
                     <button onclick="createNote()" class="btn btn-secondary">
                         ➕ 今日のノートを作成
                     </button>
@@ -901,3 +905,16 @@
     </script>
 </body>
 </html>
+
+<script>
+// カレンダービュー更新とノート作成の関数を追加
+function exportCalendar() {
+    alert('研究ノートカレンダーを更新\n\nターミナルで以下を実行してください:\n\nnode scripts/export_calendar_view.js\n\nまたは:\n\nnpm run notes:export\n\n✅ ファイル名は YYYY-MM-DD.md 形式にしてください');
+}
+
+// createNote関数を上書き
+window.createNote = function() {
+    const today = new Date().toISOString().split('T')[0];
+    alert('研究ノートを作成\n\n1. research_notes/' + today + '.md を作成\n2. ターミナルで以下を実行してカレンダーを更新:\n\n   npm run notes:export\n\n💡 ファイル名は必ず YY YY-MM-DD.md 形式にしてください');
+};
+</script>

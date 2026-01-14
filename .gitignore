@@ -51,3 +51,6 @@ references.bib
 
 # TODOとメモ（LocalStorageに保存されるため不要）
 # これらはブラウザローカルに保存されます
+
+# アプリアイコン（macOS用）
+*.app
